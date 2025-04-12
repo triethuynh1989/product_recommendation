@@ -871,33 +871,33 @@ elif menu == "Gợi ý sản phẩm":
                 st.markdown(f"⭐ {row['rating']}")
 
         # --- GỢI Ý THEO NGƯỜI DÙNG ---
-        if user_id is not None:
-            st.markdown("## 🤝 Gợi ý sản phẩm phù hợp với bạn trong danh mục")
-            rated_ids = ratings_df[ratings_df['user_id'] == user_id]['product_id'].unique()
-            filtered_unrated = filtered_products[~filtered_products['product_id'].isin(rated_ids)]
+        # if user_id is not None:
+        #     st.markdown("## 🤝 Gợi ý sản phẩm phù hợp với bạn trong danh mục")
+        #     rated_ids = ratings_df[ratings_df['user_id'] == user_id]['product_id'].unique()
+        #     filtered_unrated = filtered_products[~filtered_products['product_id'].isin(rated_ids)]
 
-            if filtered_unrated.empty:
-                st.info("🛑 Bạn đã đánh giá hết các sản phẩm trong danh mục.")
-            else:
-                svd_model = load_svd_model()
-                predictions = [
-                    (row['product_id'], svd_model.predict(user_id, row['product_id']).est)
-                    for _, row in filtered_unrated.iterrows()
-                ]
-                top_preds = sorted(predictions, key=lambda x: x[1], reverse=True)[:5]
-                top_ids = [pid for pid, _ in top_preds]
-                recommended_df = filtered_unrated[filtered_unrated['product_id'].isin(top_ids)]
+        #     if filtered_unrated.empty:
+        #         st.info("🛑 Bạn đã đánh giá hết các sản phẩm trong danh mục.")
+        #     else:
+        #         svd_model = load_svd_model()
+        #         predictions = [
+        #             (row['product_id'], svd_model.predict(user_id, row['product_id']).est)
+        #             for _, row in filtered_unrated.iterrows()
+        #         ]
+        #         top_preds = sorted(predictions, key=lambda x: x[1], reverse=True)[:5]
+        #         top_ids = [pid for pid, _ in top_preds]
+        #         recommended_df = filtered_unrated[filtered_unrated['product_id'].isin(top_ids)]
 
-                cols = st.columns(len(recommended_df))
-                for col, (_, row) in zip(cols, recommended_df.iterrows()):
-                    with col:
-                        st.markdown("----")
-                        if isinstance(row['image'], str) and row['image'].startswith("http"):
-                            st.image(row['image'])
-                        else:
-                            st.image("image/Image_not_available.png")
-                        st.markdown(f"#### 🛍️ {row['product_name']}")
-                        st.markdown(f"**📌 Mã sản phẩm:** `{row['product_id']}`")
-                        st.markdown(f"`#{row['category']}`, `#{row['sub_category']}`")
-                        st.markdown(f"**💰 Giá:** `{int(row['price']):,} đ`")
-                        st.markdown(f"**⭐ Rating:** `{row['rating']:.2f}`")
+        #         cols = st.columns(len(recommended_df))
+        #         for col, (_, row) in zip(cols, recommended_df.iterrows()):
+        #             with col:
+        #                 st.markdown("----")
+        #                 if isinstance(row['image'], str) and row['image'].startswith("http"):
+        #                     st.image(row['image'])
+        #                 else:
+        #                     st.image("image/Image_not_available.png")
+        #                 st.markdown(f"#### 🛍️ {row['product_name']}")
+        #                 st.markdown(f"**📌 Mã sản phẩm:** `{row['product_id']}`")
+        #                 st.markdown(f"`#{row['category']}`, `#{row['sub_category']}`")
+        #                 st.markdown(f"**💰 Giá:** `{int(row['price']):,} đ`")
+        #                 st.markdown(f"**⭐ Rating:** `{row['rating']:.2f}`")
