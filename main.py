@@ -723,16 +723,16 @@ elif menu == "Gợi ý sản phẩm":
     dictionary, tfidf_model, index = load_tfidf_models()
     
 
-    @st.cache_resource
-    def load_svd_model():
-        os.makedirs("models", exist_ok=True)
-        model_path = "models/best_svd_model.pkl"
-        file_id = "1zpNzHVZQ9p1MydnmQiQeGOsirRc8Hxp7"
+    # @st.cache_resource
+    # def load_svd_model():
+    #     os.makedirs("models", exist_ok=True)
+    #     model_path = "models/best_svd_model.pkl"
+    #     file_id = "1zpNzHVZQ9p1MydnmQiQeGOsirRc8Hxp7"
 
-        if not os.path.exists(model_path):
-            gdown.download(f"https://drive.google.com/uc?id={file_id}", model_path, quiet=False)
+    #     if not os.path.exists(model_path):
+    #         gdown.download(f"https://drive.google.com/uc?id={file_id}", model_path, quiet=False)
 
-        return joblib.load(model_path)
+    #     return joblib.load(model_path)
 
     # Giao diện
     
