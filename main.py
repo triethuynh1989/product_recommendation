@@ -679,7 +679,7 @@ elif menu == "Gợi ý sản phẩm":
         drive_files = {
             "tfidf_gensim_dictionary.pkl": "1Ataz0dHDc0Oq8D4i0PhMdQD4AaIPfLbr",
             "tfidf_gensim_model.pkl": "1zpNzHVZQ9p1MydnmQiQeGOsirRc8Hxp7",
-            "tfidf_gensim_index.index": "1MmO3ds8KJ3wFP0jIlgxqUGbxu7VbU6"
+            "tfidf_gensim_index.index": "1MmO3ds8KJ3wFP0jIlgxqUGbxu7VbU6-I"
         }
 
         for filename, file_id in drive_files.items():
