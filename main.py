@@ -61,46 +61,43 @@ if menu == "Giới thiệu":
 elif menu == "Phân tích dữ liệu":
     st.title("📊 Phân tích Dữ liệu")
     @st.cache_data
-    def load_csv_from_drive():
+    def load_data_from_drive():
         os.makedirs("data", exist_ok=True)
-
         drive_files = {
-            "Products_ThoiTrangNam_rating_raw.csv": "1D9fjsXCsuny7buOo-pbvCQt48oHuCc5b",  # Thay ID thực tế vào
-            "Products_ThoiTrangNam_raw.csv": "1qAZFhPv_rdme6Cdt19agBkh4HNElF_Sp"        # Thay ID thực tế vào
+            "Products_ThoiTrangNam_rating_raw.csv": "1D9fjsXCsuny7buOo-pbvCQt48oHuCc5b",
+            "Products_ThoiTrangNam_raw.csv": "1qAZFhPv_rdme6Cdt19agBkh4HNElF_Sp"
         }
 
         for filename, file_id in drive_files.items():
             file_path = os.path.join("data", filename)
             if not os.path.exists(file_path):
-                st.info(f"🔽 Đang tải {filename} từ Google Drive...")
+                st.info(f"🔽 Đang tải `{filename}` từ Google Drive...")
                 gdown.download(f"https://drive.google.com/uc?id={file_id}", file_path, quiet=False)
-    
 
+        ratings_df = pd.read_csv("data/Products_ThoiTrangNam_rating_raw.csv", sep='\t')
+        products_df = pd.read_csv("data/Products_ThoiTrangNam_raw.csv")
         return ratings_df, products_df
 
+    data_option = st.radio("🔧 Chọn nguồn dữ liệu:", ("Sử dụng file từ Google Drive", "📤 Tải lên file riêng"))
 
-
-    data_option = st.radio("Chọn nguồn dữ liệu:", ("Sử dụng file mặc định", "Tải lên file riêng"))
-
-    if data_option == "Sử dụng file mặc định":
-        if os.path.exists("data/Products_ThoiTrangNam_rating_raw.csv") and os.path.exists("data/Products_ThoiTrangNam_raw.csv"):
-            ratings_df = pd.read_csv("data/Products_ThoiTrangNam_rating_raw.csv", sep='\t')
-            products_df = pd.read_csv("data/Products_ThoiTrangNam_raw.csv")
-            st.success("Đã tải 2 file mặc định thành công.")
-        else:
-            st.error("Không tìm thấy một trong hai file mặc định. Vui lòng kiểm tra lại đường dẫn hoặc tên file.")
+    if data_option == "Sử dụng file từ Google Drive":
+        try:
+            ratings_df, products_df = load_data_from_drive()
+            st.success("✅ Dữ liệu đã được tải thành công từ Google Drive.")
+        except Exception as e:
+            st.error(f"❌ Lỗi khi tải dữ liệu: {e}")
             st.stop()
 
     else:
-        uploaded_rating_file = st.file_uploader("Tải lên file đánh giá (Collaborative Filtering)", type="csv")
-        uploaded_product_file = st.file_uploader("Tải lên file sản phẩm (Content-Based Filtering)", type="csv")
+        uploaded_rating_file = st.file_uploader("📥 Tải lên file đánh giá người dùng (Collaborative Filtering)", type="csv")
+        uploaded_product_file = st.file_uploader("📥 Tải lên file sản phẩm (Content-Based Filtering)", type="csv")
 
         if uploaded_rating_file is not None and uploaded_product_file is not None:
             ratings_df = pd.read_csv(uploaded_rating_file, sep='\t')
             products_df = pd.read_csv(uploaded_product_file)
-            st.success("Đã tải dữ liệu thành công.")
+            st.success("✅ Đã tải dữ liệu từ file upload thành công.")
         else:
-            st.warning("Vui lòng tải cả hai file để tiếp tục.")
+            st.warning("⚠️ Vui lòng tải cả hai file để tiếp tục.")
             st.stop()
 
     # Nút nhấn để thực hiện phân tích
