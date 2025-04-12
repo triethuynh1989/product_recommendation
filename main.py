@@ -60,6 +60,26 @@ if menu == "Giới thiệu":
 # 2. Phân tích và thống kê dữ liệu
 elif menu == "Phân tích dữ liệu":
     st.title("📊 Phân tích Dữ liệu")
+    @st.cache_data
+    def load_csv_from_drive():
+        os.makedirs("data", exist_ok=True)
+
+        drive_files = {
+            "Products_ThoiTrangNam_rating_raw.csv": "1D9fjsXCsuny7buOo-pbvCQt48oHuCc5b",  # Thay ID thực tế vào
+            "Products_ThoiTrangNam_raw.csv": "1qAZFhPv_rdme6Cdt19agBkh4HNElF_Sp"        # Thay ID thực tế vào
+        }
+
+        for filename, file_id in drive_files.items():
+            file_path = os.path.join("data", filename)
+            if not os.path.exists(file_path):
+                st.info(f"🔽 Đang tải {filename} từ Google Drive...")
+                gdown.download(f"https://drive.google.com/uc?id={file_id}", file_path, quiet=False)
+    
+
+        return ratings_df, products_df
+
+
+
     data_option = st.radio("Chọn nguồn dữ liệu:", ("Sử dụng file mặc định", "Tải lên file riêng"))
 
     if data_option == "Sử dụng file mặc định":
