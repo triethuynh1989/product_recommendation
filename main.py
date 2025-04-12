@@ -32,7 +32,7 @@ st.sidebar.markdown("""
 
 # 1. Giới thiệu về project
 if menu == "Giới thiệu":
-    st.image("image/banner.jpg", use_container_width=True)
+    st.image("image/banner.jpg")
     st.title("Project 2: Recommender System")
 
     st.subheader("Nhóm thực hiện (Ngáo Ngơ Team)")
@@ -106,7 +106,7 @@ elif menu == "Phân tích dữ liệu":
     # Nút nhấn để thực hiện phân tích
     if st.button("Phân tích dữ liệu"):
         st.subheader("📄 Dữ liệu đánh giá (ratings_df)")
-        st.dataframe(ratings_df.head(3), use_container_width=True)
+        st.dataframe(ratings_df.head(3))
         st.subheader("📊 Tổng quan dữ liệu ratings")
 
         # Tính toán chỉ số
@@ -498,7 +498,7 @@ elif menu == "Phân tích dữ liệu":
 
                     # 2. Ảnh sản phẩm
                     if pd.notna(row['image']):
-                        st.image(row['image'], use_container_width=True, caption="Ảnh sản phẩm")
+                        st.image(row['image'], caption="Ảnh sản phẩm")
                     else:
                         st.warning("Không có ảnh sản phẩm")
 
@@ -539,7 +539,7 @@ elif menu == "Phân tích dữ liệu":
 
                     # 2. Ảnh sản phẩm
                     if pd.notna(row['image']):
-                        st.image(row['image'], use_container_width=True, caption="Ảnh sản phẩm")
+                        st.image(row['image'], caption="Ảnh sản phẩm")
                     else:
                         st.warning("Không có ảnh sản phẩm")
 
@@ -586,7 +586,7 @@ elif menu == "Model Building":
         - Mô hình được tiến hành tiền xử lý và xây dựng dựa trên bộ dữ liệu cơ bản  
         - Để cập nhật thông tin và mô hình vui lòng liên hệ admin
     """)
-    st.image("image/data_preprocessing.png", caption="Sơ đồ xử lý dữ liệu đầu vào", use_container_width=True)
+    st.image("image/data_preprocessing.png", caption="Sơ đồ xử lý dữ liệu đầu vào")
 
     st.markdown("""
     - **Tổng hợp dữ liệu:**  
@@ -803,11 +803,10 @@ elif menu == "Gợi ý sản phẩm":
 
         with col_img:
             if isinstance(product_info['image'], str) and product_info['image'].startswith("http"):
-                st.image(product_info['image'], use_container_width=True)
-            else:
+                st.image(product_info['image'])
                 fallback_path = "image/Image_not_available.png"
                 if os.path.exists(fallback_path):
-                    st.image(fallback_path, use_container_width=True)
+                    st.image(fallback_path)
                 else:
                     st.warning("Không có ảnh", icon="⚠️")
 
@@ -839,9 +838,9 @@ elif menu == "Gợi ý sản phẩm":
                 row = products_df.iloc[i]
                 st.markdown("----")
                 if isinstance(row['image'], str) and row['image'].startswith("http"):
-                    st.image(row['image'], use_container_width=True)
+                    st.image(row['image'])
                 else:
-                    st.image("image/Image_not_available.png", use_container_width=True)
+                    st.image("image/Image_not_available.png")
                 st.markdown(f"**{row['product_name']}**")
                 st.markdown(f"`#{row['category']}`, `#{row['sub_category']}`")
                 st.markdown(f"💰 {int(row['price']):,} đ")
@@ -870,9 +869,9 @@ elif menu == "Gợi ý sản phẩm":
                     with col:
                         st.markdown("----")
                         if isinstance(row['image'], str) and row['image'].startswith("http"):
-                            st.image(row['image'], use_container_width=True)
+                            st.image(row['image'])
                         else:
-                            st.image("image/Image_not_available.png", use_container_width=True)
+                            st.image("image/Image_not_available.png")
                         st.markdown(f"#### 🛍️ {row['product_name']}")
                         st.markdown(f"**📌 Mã sản phẩm:** `{row['product_id']}`")
                         st.markdown(f"`#{row['category']}`, `#{row['sub_category']}`")
