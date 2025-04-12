@@ -666,9 +666,35 @@ elif menu == "Gợi ý sản phẩm":
 
     # 3. Giao diện gợi ý sản phẩm
     # Load dữ liệu
-    ratings_df = pd.read_csv("data/Products_ThoiTrangNam_rating_raw.csv", sep='\t')
-    products_df = pd.read_csv("data/Products_ThoiTrangNam_raw.csv")
-    content_df = pd.read_csv("data/content_with_tokens.csv")
+    @st.cache_data
+    def load_data_from_drive():
+        # Tạo thư mục lưu nếu chưa tồn tại
+        data_dir = "downloads"
+        os.makedirs(data_dir, exist_ok=True)
+
+        # Danh sách các file và Google Drive ID tương ứng
+        file_info = [
+            ("Products_ThoiTrangNam_rating_raw.csv", "1D9fjsXCsuny7buOo-pbvCQt48oHuCc5b"),
+            ("Products_ThoiTrangNam_raw.csv", "1qAZFhPv_rdme6Cdt19agBkh4HNElF_Sp"),
+            ("content_with_tokens.csv", "1b-hf9zpMtMfj7a2lb5uNWfQRqz-54DNK")
+        ]
+
+        # Tải từng file nếu chưa có
+        for filename, file_id in file_info:
+            path = os.path.join(data_dir, filename)
+            if not os.path.exists(path):
+                st.info(f"🔽 Đang tải `{filename}` từ Google Drive...")
+                url = f"https://drive.google.com/uc?id={file_id}"
+                gdown.download(url, path, quiet=False)
+
+        # Load dữ liệu sau khi tải xong
+        ratings_df = pd.read_csv(os.path.join(data_dir, "Products_ThoiTrangNam_rating_raw.csv"), sep='\t')
+        products_df = pd.read_csv(os.path.join(data_dir, "Products_ThoiTrangNam_raw.csv"))
+        content_df = pd.read_csv(os.path.join(data_dir, "content_with_tokens.csv"))
+        
+        return ratings_df, products_df, content_df
+
+    ratings_df, products_df, content_df = load_data_from_drive()
     content_df['tokens'] = content_df['tokens'].apply(ast.literal_eval)
 
     # Load mô hình Gensim
@@ -695,6 +721,7 @@ elif menu == "Gợi ý sản phẩm":
 
         return dictionary, tfidf_model, index
     dictionary, tfidf_model, index = load_tfidf_models()
+    
 
     @st.cache_resource
     def load_svd_model():
