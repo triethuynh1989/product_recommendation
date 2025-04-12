@@ -18,7 +18,7 @@ st.set_page_config(layout="wide")
 # Sidebar Navigation
 st.sidebar.title("📌 Menu")
 menu = st.sidebar.radio("Điều hướng", ["Giới thiệu", "Phân tích dữ liệu","Model Building", "Gợi ý sản phẩm"])
-st.sidebar.image("image/sub_banner.png", use_container_width=True) 
+st.sidebar.image("image/sub_banner.png")
 st.sidebar.markdown("---")
 st.sidebar.markdown("#### 📝 Ghi chú đồ án")
 st.sidebar.markdown("""
