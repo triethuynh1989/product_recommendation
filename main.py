@@ -716,7 +716,12 @@ elif menu == "Gợi ý sản phẩm":
         with open("models/tfidf_gensim_dictionary.pkl", "rb") as f:
             dictionary = joblib.load(f)
         with open("models/tfidf_gensim_model.pkl", "rb") as f:
-            tfidf_model = joblib.load(f)
+            # tfidf_model = joblib.load(f)
+            try:
+                tfidf_model = joblib.load(f)
+            except ModuleNotFoundError as e:
+                st.error(f"❌ Không thể load tfidf_model. Thiếu module: {e.name}")
+                raise e
         index = similarities.SparseMatrixSimilarity.load("models/tfidf_gensim_index.index")
 
         return dictionary, tfidf_model, index
